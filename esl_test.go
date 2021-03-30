@@ -2,10 +2,10 @@ package wxesl
 
 import (
 	"fmt"
+	"log"
 	"testing"
 	"time"
 
-	"github.com/cloudflare/cfssl/log"
 	"github.com/fiorix/go-eventsocket/eventsocket"
 )
 
@@ -21,14 +21,14 @@ func TestAll(t *testing.T) {
 		for {
 			data, ok := <-eventChan
 			if !ok {
-				log.Info("event handle stop")
+				log.Println("event handle stop")
 				break
 			}
 			fmt.Println(data.String())
 
 			if data.Header["Event-Name"] == CHANNEL_ANSWER {
 				uuid := data.Header["Unique-Id"]
-				log.Info("uuid is ", uuid)
+				log.Println("uuid is ", uuid)
 				time.Sleep(time.Second)
 				instance.SendMsg(uuid.(string), "hangup", "", "")
 			}
