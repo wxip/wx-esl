@@ -14,18 +14,18 @@ instance := NewWxEsl("127.0.0.1", 8021, "ClueCon", []string{CHANNEL_HANGUP_COMPL
 - 获取事件消息
 ```
 eventChan := instance.GetEventChan()
-	go func(chan *eventsocket.Event) {
-		for {
-			data, ok := <-eventChan
-			if !ok {
-				log.Info("event handle stop")
-				break
-			}
-			fmt.Println(data.String())
-            uuid := data.Header["Unique-Id"]
-			log.Info("uuid is ", uuid)
+go func(chan *eventsocket.Event) {
+	for {
+		data, ok := <-eventChan
+		if !ok {
+			log.Info("event handle stop")
+			break
 		}
-	}(eventChan)
+		fmt.Println(data.String())
+		uuid := data.Header["Unique-Id"]
+		log.Info("uuid is ", uuid)
+	}
+}(eventChan)
 ```
 - 发送异步指令
 ```
